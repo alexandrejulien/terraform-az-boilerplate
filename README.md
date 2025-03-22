@@ -46,18 +46,7 @@ terraform apply -var-file="envs/nonprod.tfvars"
 
 ## Troubleshooting
 
-If you encounter an error such as:
-
-```
-HTTP response was nil; connection may have been reset
-```
-
-This error indicates that Terraform did not receive a valid HTTP response from a remote endpoint. This can be due to:
-- **Network Issues:** An unstable or interrupted internet connection.
-- **Proxy/Firewall Settings:** A proxy or firewall might be blocking the connection.
-- **Transient Issues:** Temporary problems that may resolve on a retry.
-
-Ensure your connection is stable, verify that your proxy/firewall is configured correctly, and try the operation again.
+Be careful about requirements.
 
 ## Contributing
 
