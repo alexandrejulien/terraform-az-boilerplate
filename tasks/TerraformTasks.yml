@@ -23,6 +23,14 @@ tasks:
     desc: Terraform init
     cmds:
       - terraform init -backend-config="{{.BACKEND_CONFIG}}.config"
+  upgrade:
+    desc: Terraform init (upgrade)
+    cmds:
+      - terraform init -upgrade -backend-config="{{.BACKEND_CONFIG}}.config"
+  reconfigure:
+    desc: Terraform init (reconfigure)
+    cmds:
+      - terraform init -reconfigure -backend-config="{{.BACKEND_CONFIG}}.config"
   validate:
     desc: Terraform validate
     cmds:
@@ -30,7 +38,8 @@ tasks:
   plan:
     desc: Terraform plan
     cmds:
-      - terraform plan -var-file="{{.VARFILE}}.tfvars"
+      - terraform plan -var-file="{{.VARFILE}}.tfvars" -out=plan
+      - terraform show -json plan > plan.tfgraph
   apply:
     desc: Terraform apply
     cmds:

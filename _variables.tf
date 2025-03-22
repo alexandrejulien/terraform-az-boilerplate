@@ -7,3 +7,8 @@ variable "location" {
     type = string
     description = "The location/region for the resource group"
 }
+
+variable "subscription_id" {
+    type = string
+    description = "The subscription ID"
+}
