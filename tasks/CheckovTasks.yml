@@ -1,0 +1,7 @@
+version: 3
+
+tasks:
+  scan:
+    desc: Checkov scan
+    cmds:
+      - checkov -d .

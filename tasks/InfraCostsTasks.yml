@@ -1,0 +1,8 @@
+version: 3
+
+tasks:
+  default:
+    desc: 💲 Get infra costs report
+    cmds:
+      - infracost breakdown --path . --format json > infracosts.json
+      - infracost report --path . --format table

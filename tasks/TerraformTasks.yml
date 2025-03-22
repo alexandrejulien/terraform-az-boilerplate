@@ -5,18 +5,6 @@ env:
 # Terraform tasks
 version: '3'
 tasks:
-  install-required-tools:
-    desc: Install required tools
-    cmds:
-      - echo 'Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'
-  lint: 
-    desc: Lint terraform files
-    cmds:
-      - tflint
-  docs:
-    desc: Generate terraform docs
-    cmds:
-      - terraform-docs markdown table . > terrraform.md
   init:
     desc: Terraform init
     cmds:
@@ -34,19 +22,19 @@ tasks:
     cmds:
       - terraform validate
   plan:
-    desc: Terraform plan
+    desc: 🚀 Terraform plan
     cmds:
       - terraform plan -var-file="{{.VARFILE}}.tfvars" -out=plan
       - terraform show -json plan > plan.tfgraph
   apply:
-    desc: Terraform apply
+    desc: 🚀 Terraform apply
     cmds:
       - terraform apply -var-file="{{.VARFILE}}.tfvars"
   apply:approve:
-    desc: Terraform apply (auto-approve) from plan
+    desc: 🚀 Terraform apply (auto-approve) from plan
     cmds:
       - terraform apply -var-file="{{.VARFILE}}.tfvars" -auto-approve
   destroy:
-    desc: Terraform destroy
+    desc: ❌ Terraform destroy
     cmds:
       - terraform destroy -var-file="{{.VARFILE}}.tfvars"
