@@ -6,7 +6,7 @@
 *.tfstate.*
 
 # local tfvars
-"./**/local.tfvars"
+"**/local.tfvars"
 
 ## tfplan files
 ".tfplan"
