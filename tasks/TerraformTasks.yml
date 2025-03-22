@@ -1,8 +1,6 @@
 env:
   BACKEND_CONFIG: "backends\\backend.nonprod"
-  VARFILE: "envs\\nonprod"
-
-args:
+  VARFILE: "envs\\local"
 
 # Terraform tasks
 version: '3'

@@ -10,6 +10,7 @@
 
 ## tfplan files
 ".tfplan"
+".tfgraph"
 
 # Crash log files
 crash.log
