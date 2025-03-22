@@ -42,6 +42,10 @@ tasks:
     desc: Terraform apply
     cmds:
       - terraform apply -var-file="{{.VARFILE}}.tfvars"
+  apply:approve:
+    desc: Terraform apply (auto-approve) from plan
+    cmds:
+      - terraform apply -var-file="{{.VARFILE}}.tfvars" -auto-approve
   destroy:
     desc: Terraform destroy
     cmds:
