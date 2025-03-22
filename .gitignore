@@ -6,7 +6,10 @@
 *.tfstate.*
 
 # local tfvars
-envs\local.tfvars
+"./**/local.tfvars"
+
+## tfplan files
+".tfplan"
 
 # Crash log files
 crash.log
