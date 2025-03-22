@@ -5,12 +5,3 @@ version: '3'
 includes:
   terraform: tasks/TerraformTasks.yml
 
-vars:
-  GREETING: Hello, World!
-
-tasks:
-
-  default:
-    cmds:
-      - echo "{{.GREETING}}"
-    silent: true
