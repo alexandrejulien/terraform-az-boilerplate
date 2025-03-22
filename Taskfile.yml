@@ -3,14 +3,18 @@
 version: '3'
 
 includes:
-  terraform: tasks/TerraformTasks.yml
-  tflint: tasks/TflintTasks.yml
-  docs: tasks/TerraformDocsTasks.yml
-  infracosts: tasks/InfraCostsTasks.yml
-  checkov: tasks/CheckovTasks.yml
+  terraform: .tasks/TerraformTasks.yml
+  tflint: .tasks/TflintTasks.yml
+  docs: .tasks/TerraformDocsTasks.yml
+  infracosts: .tasks/InfraCostsTasks.yml
+  checkov: .tasks/CheckovTasks.yml
 
 tasks:
-  install-required-tools:
-    desc: Describe required tools
+  default:
+     desc: List all tasks
+     cmds:
+       - task --list-all
+  required-tools:
+    desc: Required tools
     cmds:
-      - echo 'Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'
+      - echo '🚀 Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'
