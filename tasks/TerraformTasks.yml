@@ -1,0 +1,29 @@
+env:
+  BACKEND_CONFIG: "backends\\backend.nonprod"
+  VARFILE: "envs\\nonprod"
+
+args:
+
+# Terraform tasks
+version: '3'
+tasks:
+  install-required-tools:
+    desc: Install required tools
+    cmds:
+      - echo 'Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'
+  lint: 
+    desc: Lint terraform files
+    cmds:
+      - tflint
+  init:
+    desc: Terraform init
+    cmds:
+      - terraform init -backend-config="{{.BACKEND_CONFIG}}.config"
+  validate:
+    desc: Terraform validate
+    cmds:
+      - terraform validate
+  plan:
+    desc: Terraform plan
+    cmds:
+      - terraform plan -var-file="{{.VARFILE}}.tfvars"
