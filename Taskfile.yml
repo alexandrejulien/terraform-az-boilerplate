@@ -1,0 +1,7 @@
+# Terraform az boilerplate
+
+version: '3'
+
+includes:
+  terraform: tasks/TerraformTasks.yml
+
