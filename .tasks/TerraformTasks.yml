@@ -8,6 +8,13 @@ env:
 # Terraform tasks
 version: '3'
 tasks:
+  default:
+    desc: 🚀 Terraform init, and plan
+    deps:
+      - init
+      - validate
+      - lint
+      - plan
   init:
     desc: Terraform init
     cmds:
@@ -46,4 +53,8 @@ tasks:
     vars:
       ID: '{{.ID}}'
     cmds:
-      - terraform force-unlock -force {{.ID}} 
+      - terraform force-unlock -force {{.ID}}
+  lint: 
+    desc: Lint terraform files
+    cmds:
+      - tflint

@@ -37,9 +37,29 @@ This project provides a Terraform template for deploying resources in Azure. It 
 
 ### Initialization
 
+```ps1
+* default:                       List all tasks
+* required-tools:                Required tools
+* checkov:scan:                  Checkov scan
+* docs:generate:                 📄 Generate terraform docs
+* infracosts:default:            💲 Get infra costs report      (aliases: infracosts)
+* terraform:apply:               🚀 Terraform apply
+* terraform:apply:approve:       🚀 Terraform apply (auto-approve) from plan
+* terraform:default:             🚀 Terraform init, and plan      (aliases: terraform)
+* terraform:destroy:             ❌ Terraform destroy
+* terraform:init:                Terraform init
+* terraform:lint:                Lint terraform files
+* terraform:plan:                🎯 Terraform plan
+* terraform:reconfigure:         Terraform init (reconfigure)
+* terraform:unlock:              🔒 Terraform force-unlock
+* terraform:upgrade:             Terraform init (upgrade)
+* terraform:validate:            ✅ Terraform validate
+```
+
 Initialize the Terraform configuration and backend by running:
 
-```sh
+```ps1
+task terraform:init
 terraform init -backend-config="backends/backend.nonprod.config"
 ```
 
@@ -48,6 +68,9 @@ terraform init -backend-config="backends/backend.nonprod.config"
 After initialization, you can plan and apply your Terraform configuration:
 
 ```sh
+task terraform:plan
+task terraform:apply 
+
 terraform plan -var-file="envs/nonprod.tfvars"
 terraform apply -var-file="envs/nonprod.tfvars"
 ```

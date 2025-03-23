@@ -4,7 +4,6 @@ version: '3'
 
 includes:
   terraform: .tasks/TerraformTasks.yml
-  tflint: .tasks/TflintTasks.yml
   docs: .tasks/TerraformDocsTasks.yml
   infracosts: .tasks/InfraCostsTasks.yml
   checkov: .tasks/CheckovTasks.yml
