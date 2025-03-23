@@ -17,7 +17,9 @@ This project provides a Terraform template for deploying resources in Azure. It 
   - [`rg.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\rg.tf): Defines an Azure Resource Group using supplied variables.
   - [`variables.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\variables.tf): Declares variables (e.g., resource group name and location).
   - [`backend.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\backend.tf): Specifies the backend configuration for Terraform state management.
-- **backends.**: Contains backend configuration files
+- **modules/**: Reusable Terraform modules
+  - Example: [`modules/tags/variables.tf`](d:\Dev\Github\terraform-az-boilerplate\modules\tags\variables.tf): Contains variables and validations for applying conventional tags.
+- **backends/**: Contains backend configuration files
   - [`backend.nonprod.config`](d:\Dev\Github\terraform-az-boilerplate\backends\backend.nonprod.config): Provides the Azure Storage backend options for non-production environments.
 - **envs/**: Defines environment-specific variable values
   - [`nonprod.tfvars`](d:\Dev\Github\terraform-az-boilerplate\envs\nonprod.tfvars): Contains variable assignments for non-production setups.
