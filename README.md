@@ -10,6 +10,27 @@
 
 This project provides a Terraform template for deploying resources in Azure. It features a modular structure with configuration for providers, resource groups, backend state management, environment-specific settings, and tasks to automate common Terraform commands.
 
+**Example :**
+
+```ps1
+* default:                       List all tasks
+* required-tools:                Required tools
+* checkov:scan:                  Checkov scan
+* docs:generate:                 📄 Generate terraform docs
+* infracosts:default:            💲 Get infra costs report      (aliases: infracosts)
+* terraform:apply:               🚀 Terraform apply
+* terraform:apply:approve:       🚀 Terraform apply (auto-approve) from plan
+* terraform:default:             🚀 Terraform init, and plan      (aliases: terraform)
+* terraform:destroy:             ❌ Terraform destroy
+* terraform:init:                Terraform init
+* terraform:lint:                Lint terraform files
+* terraform:plan:                🎯 Terraform plan
+* terraform:reconfigure:         Terraform init (reconfigure)
+* terraform:unlock:              🔒 Terraform force-unlock
+* terraform:upgrade:             Terraform init (upgrade)
+* terraform:validate:            ✅ Terraform validate
+```
+
 ## Project Structure
 
 - **tf/**: Main Terraform configuration files
@@ -36,25 +57,6 @@ This project provides a Terraform template for deploying resources in Azure. It 
 - A task runner (as referenced in `Taskfile.yml`) to automate commands
 
 ### Initialization
-
-```ps1
-* default:                       List all tasks
-* required-tools:                Required tools
-* checkov:scan:                  Checkov scan
-* docs:generate:                 📄 Generate terraform docs
-* infracosts:default:            💲 Get infra costs report      (aliases: infracosts)
-* terraform:apply:               🚀 Terraform apply
-* terraform:apply:approve:       🚀 Terraform apply (auto-approve) from plan
-* terraform:default:             🚀 Terraform init, and plan      (aliases: terraform)
-* terraform:destroy:             ❌ Terraform destroy
-* terraform:init:                Terraform init
-* terraform:lint:                Lint terraform files
-* terraform:plan:                🎯 Terraform plan
-* terraform:reconfigure:         Terraform init (reconfigure)
-* terraform:unlock:              🔒 Terraform force-unlock
-* terraform:upgrade:             Terraform init (upgrade)
-* terraform:validate:            ✅ Terraform validate
-```
 
 Initialize the Terraform configuration and backend by running:
 
