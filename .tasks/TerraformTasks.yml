@@ -24,8 +24,8 @@ tasks:
   plan:
     desc: 🚀 Terraform plan
     cmds:
-      - terraform plan -var-file="{{.VARFILE}}.tfvars" -out=plan
-      - terraform show -json plan > plan.tfgraph
+      - terraform plan -var-file="{{.VARFILE}}.tfvars" -out=.output\plan
+      - terraform show -json .output\plan > .output\plan.tfgraph
   apply:
     desc: 🚀 Terraform apply
     cmds:

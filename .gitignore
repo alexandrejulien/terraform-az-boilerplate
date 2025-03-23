@@ -11,6 +11,8 @@
 ## tfplan files
 ".tfplan"
 ".tfgraph"
+".output"
+".output\*"
 
 # Crash log files
 crash.log
