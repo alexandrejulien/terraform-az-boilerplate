@@ -4,6 +4,7 @@ env:
   OUTPUT_PLAN: "plan.tfplan"
   OUTPUT_GRAPH: "plan.tfgraph"
 
+
 # Terraform tasks
 version: '3'
 tasks:
@@ -40,3 +41,9 @@ tasks:
     desc: ❌ Terraform destroy
     cmds:
       - terraform destroy -var-file="{{.VARFILE}}.tfvars"
+  unlock:
+    desc: 🔒 Terraform force-unlock
+    vars:
+      ID: '{{.ID}}'
+    cmds:
+      - terraform force-unlock -force {{.ID}} 
