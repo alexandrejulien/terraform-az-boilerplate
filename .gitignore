@@ -11,6 +11,8 @@
 ## tfplan files
 ".tfplan"
 ".tfgraph"
+"*.tfplan"
+"*.tfgraph"
 ".output"
 ".output\*"
 
