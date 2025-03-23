@@ -1,6 +1,5 @@
 # Terraform Azure Boilerplate
 
-
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/alexandrejulien/terraform-az-boilerplate/.github%2Fworkflows%2Frelease.yml)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
@@ -15,10 +14,10 @@ This project provides a Terraform template for deploying resources in Azure. It 
 
 - **tf/**: Main Terraform configuration files
   - [`providers.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\providers.tf): Configures the Azure provider and specifies the required Terraform and provider versions.
-  - [`rg.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\rg.tf): Defines an Azure Resource Group, using supplied variables.
+  - [`rg.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\rg.tf): Defines an Azure Resource Group using supplied variables.
   - [`variables.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\variables.tf): Declares variables (e.g., resource group name and location).
   - [`backend.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\backend.tf): Specifies the backend configuration for Terraform state management.
-- **backends/**: Contains backend configuration files
+- **backends.**: Contains backend configuration files
   - [`backend.nonprod.config`](d:\Dev\Github\terraform-az-boilerplate\backends\backend.nonprod.config): Provides the Azure Storage backend options for non-production environments.
 - **envs/**: Defines environment-specific variable values
   - [`nonprod.tfvars`](d:\Dev\Github\terraform-az-boilerplate\envs\nonprod.tfvars): Contains variable assignments for non-production setups.
@@ -53,7 +52,7 @@ terraform apply -var-file="envs/nonprod.tfvars"
 
 ## Troubleshooting
 
-Be careful about requirements.
+Be sure to check your prerequisites and configurations if you run into issues. For example, verify that your backend configuration and variable files are correctly set up.
 
 ## Contributing
 
