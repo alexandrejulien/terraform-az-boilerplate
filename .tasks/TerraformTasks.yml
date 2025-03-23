@@ -1,6 +1,8 @@
 env:
-  BACKEND_CONFIG: "backends\\backend.nonprod"
+  BACKEND_CONFIG: "envs\\backend.nonprod"
   VARFILE: "envs\\local"
+  OUTPUT_PLAN: "plan.tfplan"
+  OUTPUT_GRAPH: "plan.tfgraph"
 
 # Terraform tasks
 version: '3'
@@ -8,24 +10,24 @@ tasks:
   init:
     desc: Terraform init
     cmds:
-      - terraform init -backend-config="{{.BACKEND_CONFIG}}.config"
+      - terraform init -backend-config="{{.BACKEND_CONFIG}}.tfvars"
   upgrade:
     desc: Terraform init (upgrade)
     cmds:
-      - terraform init -upgrade -backend-config="{{.BACKEND_CONFIG}}.config"
+      - terraform init -upgrade -backend-config="{{.BACKEND_CONFIG}}.tfvars"
   reconfigure:
     desc: Terraform init (reconfigure)
     cmds:
-      - terraform init -reconfigure -backend-config="{{.BACKEND_CONFIG}}.config"
+      - terraform init -reconfigure -backend-config="{{.BACKEND_CONFIG}}.tfvars"
   validate:
-    desc: Terraform validate
+    desc: ✅ Terraform validate
     cmds:
       - terraform validate
   plan:
-    desc: 🚀 Terraform plan
+    desc: 🎯 Terraform plan
     cmds:
-      - terraform plan -var-file="{{.VARFILE}}.tfvars" -out=plan
-      - terraform show -json plan > plan.tfgraph
+      - terraform plan -var-file="{{.VARFILE}}.tfvars" -out={{.OUTPUT_PLAN}}
+      - terraform show -json {{.OUTPUT_PLAN}} > {{.OUTPUT_GRAPH}}
   apply:
     desc: 🚀 Terraform apply
     cmds:
