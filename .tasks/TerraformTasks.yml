@@ -1,5 +1,5 @@
 env:
-  BACKEND_CONFIG: "backends\\backend.nonprod"
+  BACKEND_CONFIG: "envs\\backend.nonprod"
   VARFILE: "envs\\local"
 
 # Terraform tasks
@@ -8,15 +8,15 @@ tasks:
   init:
     desc: Terraform init
     cmds:
-      - terraform init -backend-config="{{.BACKEND_CONFIG}}.config"
+      - terraform init -backend-config="{{.BACKEND_CONFIG}}.tfvars"
   upgrade:
     desc: Terraform init (upgrade)
     cmds:
-      - terraform init -upgrade -backend-config="{{.BACKEND_CONFIG}}.config"
+      - terraform init -upgrade -backend-config="{{.BACKEND_CONFIG}}.tfvars"
   reconfigure:
     desc: Terraform init (reconfigure)
     cmds:
-      - terraform init -reconfigure -backend-config="{{.BACKEND_CONFIG}}.config"
+      - terraform init -reconfigure -backend-config="{{.BACKEND_CONFIG}}.tfvars"
   validate:
     desc: Terraform validate
     cmds:
