@@ -1,6 +1,6 @@
 # Terraform Azure Boilerplate
 
-[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=alexandrejulien_terraform-az-boilerplate)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 
 This project provides a Terraform template for deploying resources in Azure. It features a modular structure with configuration for providers, resource groups, backend state management, environment-specific settings, and tasks to automate common Terraform commands.
 
