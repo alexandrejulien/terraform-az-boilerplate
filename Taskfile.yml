@@ -3,7 +3,9 @@
 version: '3'
 
 includes:
-  terraform: .tasks/TerraformTasks.yml
+  terraform: 
+    taskfile: .tasks/TerraformTasks.yml
+    aliases : [tf]
   docs: .tasks/TerraformDocsTasks.yml
   infracosts: .tasks/InfraCostsTasks.yml
   checkov: .tasks/CheckovTasks.yml
