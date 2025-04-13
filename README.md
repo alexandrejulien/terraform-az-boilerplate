@@ -15,20 +15,24 @@ This project provides a Terraform template for deploying resources in Azure. It 
 ```ps1
 * default:                       List all tasks
 * required-tools:                Required tools
-* checkov:scan:                  Checkov scan
+* costs:analysis:                💲 Get infra costs report
 * docs:generate:                 📄 Generate terraform docs
-* infracosts:default:            💲 Get infra costs report      (aliases: infracosts)
-* terraform:apply:               🚀 Terraform apply
-* terraform:apply:approve:       🚀 Terraform apply (auto-approve) from plan
-* terraform:default:             🚀 Terraform init, and plan      (aliases: terraform)
-* terraform:destroy:             ❌ Terraform destroy
-* terraform:init:                Terraform init
-* terraform:lint:                Lint terraform files
-* terraform:plan:                🎯 Terraform plan
-* terraform:reconfigure:         Terraform init (reconfigure)
-* terraform:unlock:              🔒 Terraform force-unlock
-* terraform:upgrade:             Terraform init (upgrade)
-* terraform:validate:            ✅ Terraform validate
+* security:scan:                 Checkov scan
+* tf:apply:                      🚀 Terraform apply                                          (aliases: terraform:apply)
+* tf:apply:approve:              🚀 Terraform apply (auto-approve) from plan                 (aliases: terraform:apply:approve)
+* tf:default:                    🚀 Terraform init, and plan                                 (aliases: terraform:default, tf, terraform)      
+* tf:destroy:                    ❌ Terraform destroy                                        (aliases: terraform:destroy)
+* tf:init:                       Terraform init                                             (aliases: terraform:init)
+* tf:lint:                       Lint terraform files                                       (aliases: terraform:lint)
+* tf:plan:                       🎯 Terraform plan                                           (aliases: terraform:plan)
+* tf:reconfigure:                Terraform init (reconfigure)                               (aliases: terraform:reconfigure)
+* tf:unlock:                     🔒 Terraform force-unlock                                   (aliases: terraform:unlock)
+* tf:upgrade:                    Terraform init (upgrade)                                   (aliases: terraform:upgrade)
+* tf:validate:                   ✅ Terraform validate                                       (aliases: terraform:validate)
+* tf:workspace:create:           Create a new Terraform workspace                           (aliases: terraform:workspace:create)
+* tf:workspace:select:           Select a Terraform workspace                               (aliases: terraform:workspace:select)
+* tf:workspace:show:             Show the current Terraform workspace                       (aliases: terraform:workspace:show)
+* tf:workspace:update-env:       Update .env file with the current Terraform workspace      (aliases: terraform:workspace:update-env)
 ```
 
 ## Project Structure
