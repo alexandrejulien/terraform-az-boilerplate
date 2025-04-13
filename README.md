@@ -85,6 +85,22 @@ terraform plan -var-file="environments\nonprod\variables.tfvars"
 terraform apply -var-file="environments\nonprod\variables.tfvars"
 ```
 
+### Multi-environment
+
+Use variables and backend in "\environment\*.tfvars" folder.
+
+Switch to another environmment with switching terraform workspace.
+in .ENV file, you can change $TF_WORKSPACE value to change workspace.
+
+TF_WORKSPACE is used to the right configuration namespace in "environments" folder.
+
+```hcl
+resource "azurerm_resource_group" "my_resource" {
+  count = ${terraform.workspace} == "nonprod" ? 1 : 0
+
+}
+```
+
 ## Troubleshooting
 
 Ensure you check your prerequisites and configurations if you run into issues. Validate that your backend configuration and variable files are set up correctly.
