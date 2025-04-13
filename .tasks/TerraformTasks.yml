@@ -4,8 +4,6 @@ vars:
   OUTPUT_PLAN: "plan.tfplan"
   OUTPUT_GRAPH: "plan.tfgraph"
 
-include
-
 # Terraform tasks
 version: '3'
 tasks:
