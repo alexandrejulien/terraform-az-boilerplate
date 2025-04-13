@@ -54,9 +54,13 @@ This project provides a Terraform template for deploying resources in Azure. It 
 
 ### Prerequisites
 
+Works only on Windows Systems.
+Multi-OS work in progress.
+
 - [Terraform](https://www.terraform.io/downloads.html) (version >= 1.10)
 - [tflint](https://github.com/terraform-linters/tflint) for linting Terraform files
 - A task runner (as referenced in `Taskfile.yml`) to automate commands
+- Chocolatey or winget to install requirements packages
 
 ### Initialization
 
@@ -65,7 +69,7 @@ Initialize the Terraform configuration and backend by running:
 ```ps1
 task tf:init
 # Execute :
-terraform init -backend-config="backends/backend.tfvars"
+terraform init -backend-config="environments\nonprod\backend.tfvars"
 ```
 
 ### Applying the Configuration
@@ -77,8 +81,8 @@ task tf:plan
 task tf:apply
 
 # Execute:
-terraform plan -var-file="envs/nonprod.tfvars"
-terraform apply -var-file="envs/nonprod.tfvars"
+terraform plan -var-file="environments\nonprod\variables.tfvars"
+terraform apply -var-file="environments\nonprod\variables.tfvars"
 ```
 
 ## Troubleshooting
