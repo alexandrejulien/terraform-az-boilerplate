@@ -1,0 +1,15 @@
+version: 3
+
+tasks:
+  chocolatey:
+    desc: Install required tools
+    cmds:
+     - choco install terraform terraform-docs tflint -y
+  winget:
+    desc: Install required tools
+    cmds:
+     - winget install terraform terraform-docs tflint -y
+  describe-required-tools:
+    desc: Required tools
+    cmds:
+      - echo '🚀 Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'
