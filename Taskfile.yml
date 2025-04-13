@@ -1,21 +1,19 @@
 # Terraform az boilerplate
-
 version: '3'
 
+dotenv: ['.env']
+
 includes:
-  terraform: 
+  tf: 
     taskfile: .tasks/TerraformTasks.yml
-    aliases : [tf]
-  docs: .tasks/TerraformDocsTasks.yml
-  infracosts: .tasks/InfraCostsTasks.yml
-  checkov: .tasks/CheckovTasks.yml
+    aliases : [terraform]
+  docs: .tasks/DocsTasks.yml
+  costs: .tasks/CostsTasks.yml
+  security: .tasks/SecurityTasks.yml
+  install: .tasks/InstallTasks.yml
 
 tasks:
   default:
      desc: List all tasks
      cmds:
        - task --list-all
-  required-tools:
-    desc: Required tools
-    cmds:
-      - echo '🚀 Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'

@@ -1,9 +1,8 @@
-env:
-  BACKEND_CONFIG: "envs\\backend.nonprod"
-  VARFILE: "envs\\local"
+vars: 
+  BACKEND_CONFIG: 'environments\\{{.TF_WORKSPACE}}\\backend'
+  VARFILE: 'environments\\{{.TF_WORKSPACE}}\\variables'
   OUTPUT_PLAN: "plan.tfplan"
   OUTPUT_GRAPH: "plan.tfgraph"
-
 
 # Terraform tasks
 version: '3'
@@ -58,3 +57,23 @@ tasks:
     desc: Lint terraform files
     cmds:
       - tflint
+  workspace:update-env:
+      desc: Update .env file with the current Terraform workspace
+      cmds:
+        - echo "TF_WORKSPACE=$(terraform workspace show)" > .env
+  workspace:create:
+    desc: Create a new Terraform workspace
+    vars:
+      NAME: '{{.NAME}}'
+    cmds:
+      - terraform workspace new {{.NAME}}
+  workspace:select:
+    desc: Select a Terraform workspace
+    vars:
+      NAME: '{{.NAME}}'
+    cmds:
+      - terraform workspace select {{.NAME}}
+  workspace:show:
+    desc: Show the current Terraform workspace
+    cmds:
+      - terraform workspace show
