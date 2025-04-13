@@ -1,9 +1,10 @@
-env:
-  BACKEND_CONFIG: "envs\\backend.nonprod"
-  VARFILE: "envs\\local"
+vars: 
+  BACKEND_CONFIG: 'environments\\{{.TF_WORKSPACE}}\\backend'
+  VARFILE: 'environments\\{{.TF_WORKSPACE}}\\variables'
   OUTPUT_PLAN: "plan.tfplan"
   OUTPUT_GRAPH: "plan.tfgraph"
 
+include
 
 # Terraform tasks
 version: '3'

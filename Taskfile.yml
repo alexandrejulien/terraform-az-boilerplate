@@ -1,14 +1,15 @@
 # Terraform az boilerplate
-
 version: '3'
 
+dotenv: ['.env']
+
 includes:
-  terraform: 
+  tf: 
     taskfile: .tasks/TerraformTasks.yml
-    aliases : [tf]
-  docs: .tasks/TerraformDocsTasks.yml
-  infracosts: .tasks/InfraCostsTasks.yml
-  checkov: .tasks/CheckovTasks.yml
+    aliases : [terraform]
+  docs: .tasks/DocsTasks.yml
+  costs: .tasks/CostsTasks.yml
+  security: .tasks/SecurityTasks.yml
 
 tasks:
   default:

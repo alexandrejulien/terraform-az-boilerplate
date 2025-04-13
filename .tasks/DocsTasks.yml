@@ -3,4 +3,4 @@ tasks:
   generate:
     desc: 📄 Generate terraform docs
     cmds:
-      - terraform-docs markdown table . > terrraform.md
+      - terraform-docs markdown table . > Terrraform.md
