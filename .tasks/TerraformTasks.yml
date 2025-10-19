@@ -33,20 +33,20 @@ tasks:
   plan:
     desc: 🎯 Terraform plan
     cmds:
-      - terraform plan -var-file="{{.VARFILE}}.tfvars" -out={{.OUTPUT_PLAN}}
+      - terraform plan --var-file "{{.VARFILE}}.tfvars" --out {{.OUTPUT_PLAN}}
       - terraform show -json {{.OUTPUT_PLAN}} > {{.OUTPUT_GRAPH}}
   apply:
     desc: 🚀 Terraform apply
     cmds:
-      - terraform apply -var-file="{{.VARFILE}}.tfvars"
+      - terraform apply --var-file "{{.VARFILE}}.tfvars"
   apply:approve:
     desc: 🚀 Terraform apply (auto-approve) from plan
     cmds:
-      - terraform apply -var-file="{{.VARFILE}}.tfvars" -auto-approve
+      - terraform apply --var-file "{{.VARFILE}}.tfvars" -auto-approve
   destroy:
     desc: ❌ Terraform destroy
     cmds:
-      - terraform destroy -var-file="{{.VARFILE}}.tfvars"
+      - terraform destroy --var-file "{{.VARFILE}}.tfvars"
   unlock:
     desc: 🔒 Terraform force-unlock
     vars:

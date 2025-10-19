@@ -4,9 +4,7 @@ version: '3'
 dotenv: ['.env']
 
 includes:
-  tf: 
-    taskfile: .tasks/TerraformTasks.yml
-    aliases : [terraform]
+  tf: .tasks/TerraformTasks.yml
   docs: .tasks/DocsTasks.yml
   costs: .tasks/CostsTasks.yml
   security: .tasks/SecurityTasks.yml
