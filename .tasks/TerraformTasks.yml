@@ -41,8 +41,11 @@ tasks:
       - terraform apply --var-file "{{.VARFILE}}.tfvars"
   apply:approve:
     desc: 🚀 Terraform apply (auto-approve) from plan
+    preconditions:
+      - sh: test -f {{.OUTPUT_PLAN}}
+        msg: "No {{.OUTPUT_PLAN}} found, run 'task tf:plan' first."
     cmds:
-      - terraform apply --var-file "{{.VARFILE}}.tfvars" -auto-approve
+      - terraform apply -auto-approve {{.OUTPUT_PLAN}}
   destroy:
     desc: ❌ Terraform destroy
     cmds:
@@ -57,22 +60,27 @@ tasks:
     desc: Lint terraform files
     cmds:
       - tflint
-  workspace:update-env:
-      desc: Update .env file with the current Terraform workspace
-      cmds:
-        - echo "TF_WORKSPACE=$(terraform workspace show)" > .env
+  # TF_WORKSPACE (from .env) is read natively by Terraform and overrides
+  # `terraform workspace select/new`, so .env is the single source of truth.
   workspace:create:
-    desc: Create a new Terraform workspace
+    desc: Create a new Terraform workspace and make it active in .env
     vars:
       NAME: '{{.NAME}}'
+    preconditions:
+      - sh: test -d environments/{{.NAME}}
+        msg: "Missing environments/{{.NAME}}/ folder (backend.tfvars + variables.tfvars)."
     cmds:
-      - terraform workspace new {{.NAME}}
+      - unset TF_WORKSPACE; terraform workspace new {{.NAME}}
+      - echo "TF_WORKSPACE={{.NAME}}" > .env
   workspace:select:
-    desc: Select a Terraform workspace
+    desc: Select a Terraform workspace (writes TF_WORKSPACE to .env)
     vars:
       NAME: '{{.NAME}}'
+    preconditions:
+      - sh: test -d environments/{{.NAME}}
+        msg: "Missing environments/{{.NAME}}/ folder (backend.tfvars + variables.tfvars)."
     cmds:
-      - terraform workspace select {{.NAME}}
+      - echo "TF_WORKSPACE={{.NAME}}" > .env
   workspace:show:
     desc: Show the current Terraform workspace
     cmds:

@@ -2,7 +2,7 @@ module "main_tags"{
     source = "./modules/tags"
     conventional_tags = {
         Application = "MyApp"
-        Environment = "Dev"
+        Environment = terraform.workspace
     }
 }
 

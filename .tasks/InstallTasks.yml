@@ -4,12 +4,17 @@ tasks:
   chocolatey:
     desc: Install required tools
     cmds:
-     - choco install terraform terraform-docs tflint -y
+     - choco install terraform terraform-docs tflint infracost -y
+     - pip install checkov
   winget:
     desc: Install required tools
     cmds:
-     - winget install terraform terraform-docs tflint -y
+     - winget install --id Hashicorp.Terraform -e
+     - winget install --id Terraform-docs.Terraform-docs -e
+     - winget install --id TerraformLinters.tflint -e
+     - winget install --id Infracost.Infracost -e
+     - pip install checkov
   describe-required-tools:
     desc: Required tools
     cmds:
-      - echo '🚀 Please install terraform, terraform-docs, tflint binaries before use with Chocolatey or Winget'
+      - echo '🚀 Please install terraform, terraform-docs, tflint, infracost (Chocolatey or Winget) and checkov (pip) before use'
