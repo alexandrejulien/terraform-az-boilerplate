@@ -32,3 +32,9 @@ override.tf.json
 # CLI configuration files
 .terraformrc
 terraform.rc
+
+# TF Studio (app/) build outputs
+app/**/bin/
+app/**/obj/
+app/**/node_modules/
+app/electron/dist/

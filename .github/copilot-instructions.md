@@ -68,6 +68,17 @@ Unix-only toolchain unless asked to add cross-platform support.
 5. Suggest running `tf:validate` and `tf:lint` before `tf:plan`, and `docs:generate` if
    inputs/outputs/resources changed.
 
+## TF Studio desktop app (`app/`)
+
+Optional Electron + .NET 10 Native AOT desktop UI for this workflow (see `app/README.md`).
+- The server runs everything through `task`, never raw `terraform`. Keep it AOT-clean: no
+  reflection-based JSON, and register new types in `Api/AppJsonContext.cs` /
+  `Terraform/ExternalJsonContext.cs`.
+- The UI in `app/server/wwwroot/` has no build step and a strict CSP. Don't use `innerHTML`;
+  use `h()`/`fill()` from `js/dom.js`.
+- Task names and plan file names the server relies on live in
+  `app/server/Project/ProjectLayout.cs`. Keep them in sync with `.tasks/TerraformTasks.yml`.
+
 ## CI
 
 `.github/workflows/release.yml` only runs on `v*` tags and packages a release zip — there is no

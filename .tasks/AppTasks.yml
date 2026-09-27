@@ -1,0 +1,55 @@
+# TF Studio (app/): desktop UI for this boilerplate — .NET 10 Native AOT server + Electron shell.
+version: '3'
+
+vars:
+  SERVER_PROJECT: 'app/server/TfStudio.Server.csproj'
+  SERVER_PUBLISH_DIR: 'app/server/bin/publish'
+
+tasks:
+  install:
+    desc: 📦 TF Studio - install the Electron dependencies (npm)
+    dir: app/electron
+    cmds:
+      - npm install
+
+  build:
+    desc: 🔨 TF Studio - build the .NET server (runs the AOT and trim analyzers)
+    cmds:
+      - dotnet build {{.SERVER_PROJECT}}
+
+  start:
+    desc: 🖥️ TF Studio - run the desktop app in dev mode (Electron + dotnet run)
+    dir: app/electron
+    cmds:
+      - npm start
+
+  server:
+    desc: 🌐 TF Studio - run only the web server on this project (open the printed URL in a browser)
+    cmds:
+      - dotnet run --project {{.SERVER_PROJECT}} -- --root .
+
+  smoke:
+    desc: 🧪 TF Studio - start the app hidden, load every view, save screenshots, exit
+    dir: app/electron
+    cmds:
+      - npm run smoke
+
+  publish:
+    desc: 📦 TF Studio - publish the server as a Native AOT executable (needs the MSVC "Desktop development with C++" workload)
+    cmds:
+      - dotnet publish {{.SERVER_PROJECT}} -c Release -r win-x64 -o {{.SERVER_PUBLISH_DIR}}
+
+  dist:
+    desc: 🚀 TF Studio - build the Windows installer and portable exe into app/electron/dist
+    cmds:
+      - task: publish
+      - task: package
+
+  package:
+    internal: true
+    dir: app/electron
+    preconditions:
+      - sh: test -f ../server/bin/publish/TfStudio.Server.exe
+        msg: "No AOT server in app/server/bin/publish — run 'task app:publish' first."
+    cmds:
+      - npm run dist

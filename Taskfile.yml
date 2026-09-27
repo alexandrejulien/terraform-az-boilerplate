@@ -9,6 +9,7 @@ includes:
   costs: .tasks/CostsTasks.yml
   security: .tasks/SecurityTasks.yml
   install: .tasks/InstallTasks.yml
+  app: .tasks/AppTasks.yml
 
 tasks:
   default:

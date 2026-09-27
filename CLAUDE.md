@@ -47,7 +47,8 @@ resources are expected to be added by consumers of the template.
 All common operations are driven by [Taskfile.yml](Taskfile.yml), which includes namespaced task
 files from `.tasks/`: `tf`/`terraform` ([TerraformTasks.yml](.tasks/TerraformTasks.yml)),
 `docs` ([DocsTasks.yml](.tasks/DocsTasks.yml)), `costs` ([CostsTasks.yml](.tasks/CostsTasks.yml)),
-`security` ([SecurityTasks.yml](.tasks/SecurityTasks.yml)), `install` ([InstallTasks.yml](.tasks/InstallTasks.yml)).
+`security` ([SecurityTasks.yml](.tasks/SecurityTasks.yml)), `install` ([InstallTasks.yml](.tasks/InstallTasks.yml)),
+`app` ([AppTasks.yml](.tasks/AppTasks.yml), TF Studio — see below).
 
 Prefer running tasks over raw `terraform` commands so the correct `-var-file` /
 `-backend-config` for the active workspace is always used:
@@ -102,6 +103,31 @@ files (or the header/footer files) and regenerate instead.
   resources, not just at release time.
 - `task costs:analysis` runs Infracost; it needs an Infracost API key configured in the
   environment to work, and writes `infracosts.json` (a generated artifact, don't commit it).
+
+## TF Studio desktop app (`app/`)
+
+Optional desktop UI for this workflow; details in [app/README.md](app/README.md).
+- `app/server/` — ASP.NET Core minimal API on .NET 10, **Native AOT**. It serves the UI from
+  `wwwroot/` and runs everything through `task <name> [VAR=value]`, never raw `terraform`.
+  - Keep it AOT-clean. `dotnet build` must stay warning-free (`TreatWarningsAsErrors`, AOT and trim
+    analyzers on).
+  - No reflection-based JSON: register new API types in `Api/AppJsonContext.cs`, and new task or
+    terraform JSON shapes in `Terraform/ExternalJsonContext.cs`.
+  - Expected failures throw `StudioException`, which the API maps to HTTP status codes.
+- The server's view of the boilerplate lives in `app/server/Project/ProjectLayout.cs`: task names,
+  `plan.tfplan` / `plan.tfgraph`, `.env`, and `environments/`. If you rename tasks or change
+  `OUTPUT_PLAN`/`OUTPUT_GRAPH` in `.tasks/TerraformTasks.yml`, update that file too.
+- `app/server/wwwroot/` — plain ES modules with no build step, under a strict CSP.
+  - Never use `innerHTML` or inline scripts/styles.
+  - Build DOM with `h()`, and replace children with `fill()` from `js/dom.js`. The native
+    `replaceChildren` stringifies arrays and `null`.
+- `app/electron/` — thin shell. It spawns the server (`dotnet run` in dev, the AOT exe when
+  packaged) with a per-launch token in `TFSTUDIO_TOKEN`, then loads the UI. Start it with
+  `task app:start` (`npm start`), which clears `ELECTRON_RUN_AS_NODE`.
+- Verify UI changes with `task app:smoke`: it loads every view hidden, saves screenshots, and exits
+  non-zero on console errors.
+- `task app:publish`/`app:dist` need the MSVC "Desktop development with C++" workload (AOT linker).
+- `app/**/bin`, `obj`, `node_modules`, and `app/electron/dist` are build outputs (gitignored).
 
 ## CI
 

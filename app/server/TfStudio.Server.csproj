@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TfStudio.Server</RootNamespace>
+    <AssemblyName>TfStudio.Server</AssemblyName>
+    <Version>0.1.0</Version>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Native AOT: the server ships as one self-contained executable inside the Electron app.
+         PublishAot also turns on the trim/AOT analyzers and the Request Delegate Generator at build time. -->
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <StripSymbols>true</StripSymbols>
+    <!-- Fail in dev (JIT) runs too, not only after publish: every serialized type must come from a
+         source-generated JsonSerializerContext (see Api/AppJsonContext.cs, Terraform/ExternalJsonContext.cs). -->
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+  </PropertyGroup>
+
+</Project>

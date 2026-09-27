@@ -48,6 +48,7 @@ This project provides a Terraform template for deploying resources in Azure. It 
 - **.tasks/**: Task definition files for automating common commands  
   - [`TerraformTasks.yml`](.tasks/TerraformTasks.yml): Automates initialization, linting, validation, planning and apply tasks.
 - **Taskfile.yml**: Includes the `.tasks/*.yml` files to simplify running project tasks.
+- **app/**: TF Studio, an optional desktop UI for this workflow (see [below](#tf-studio-desktop-ui)).
 
 ## Getting Started
 
@@ -105,6 +106,20 @@ resource "azurerm_resource_group" "my_resource" {
   # ...
 }
 ```
+
+## TF Studio (desktop UI)
+
+[`app/`](app/README.md) contains TF Studio, a desktop app (Electron + a .NET 10 Native AOT server) that drives the
+same tasks from a UI: switch workspaces, run the init → validate → lint → plan workflow with live output,
+review the plan resource by resource (sensitive values masked), then apply the saved plan.
+
+```ps1
+task app:install   # once: npm install
+task app:start     # run the desktop app on this repository
+task app:dist      # Native AOT publish + Windows installer (needs the MSVC C++ build tools)
+```
+
+See [app/README.md](app/README.md) for details and the security model.
 
 ## Troubleshooting
 

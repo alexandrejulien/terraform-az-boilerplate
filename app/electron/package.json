@@ -1,0 +1,53 @@
+{
+  "name": "tf-studio",
+  "productName": "TF Studio",
+  "version": "0.1.0",
+  "description": "Desktop UI for the terraform-az-boilerplate workflow (Taskfile + Terraform), backed by a .NET 10 Native AOT server.",
+  "private": true,
+  "author": "Alexandre JULIEN",
+  "license": "MIT",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node scripts/launch.cjs",
+    "smoke": "node scripts/launch.cjs --smoke-test",
+    "dist": "electron-builder --win",
+    "dist:dir": "electron-builder --win --dir"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "fr.alexandrejulien.tfstudio",
+    "productName": "TF Studio",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../server/bin/publish",
+        "to": "server",
+        "filter": [
+          "**/*",
+          "!**/*.pdb",
+          "!**/*.dbg"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
