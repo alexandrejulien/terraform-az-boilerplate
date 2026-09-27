@@ -34,9 +34,13 @@ resources are expected to be added by consumers of the template.
     `local.tfvars` or CI/CD secrets, not in `environments/*/variables.tfvars`.
 - The workspace name is not hardcoded: `.env` sets `TF_WORKSPACE` (currently `nonprod`), and
   Taskfile templates (`{{.TF_WORKSPACE}}`) resolve `environments/<workspace>/backend.tfvars` and
-  `variables.tfvars` automatically. Adding a new environment means adding a new
-  `environments/<name>/` folder with both files and creating/selecting a matching Terraform
-  workspace — no code changes needed elsewhere.
+  `variables.tfvars` automatically. Terraform also reads `TF_WORKSPACE` natively, which
+  overrides `terraform workspace select/new` — so `.env` is the single source of truth. Switch
+  environments with `task tf:workspace:select NAME=<name>` (rewrites `.env`), never with a raw
+  `terraform workspace select`. Adding a new environment means adding an `environments/<name>/`
+  folder with both files, then `task tf:workspace:create NAME=<name>`.
+- Inside `.tf` files, use `terraform.workspace` for per-environment values (e.g. the
+  `Environment` tag in `1_rg.tf`) rather than hardcoding an environment name.
 
 ## Task runner (go-task)
 
@@ -55,12 +59,11 @@ task tf:validate           # terraform validate
 task tf:lint               # tflint
 task tf:plan               # plan + write plan.tfplan and plan.tfgraph (json)
 task tf:apply               # apply with the workspace's variables.tfvars
-task tf:apply:approve       # apply -auto-approve, from the last plan
+task tf:apply:approve       # apply -auto-approve plan.tfplan (requires a prior tf:plan)
 task tf:destroy
 task tf:unlock ID=<lock-id>
-task tf:workspace:select NAME=<name>
-task tf:workspace:create NAME=<name>
-task tf:workspace:update-env   # writes TF_WORKSPACE=<current workspace> into .env
+task tf:workspace:select NAME=<name>   # writes TF_WORKSPACE=<name> into .env
+task tf:workspace:create NAME=<name>   # terraform workspace new + writes .env
 task docs:generate          # terraform-docs -> Terrraform.md (see below)
 task security:scan          # checkov -d .
 task costs:analysis         # infracost breakdown + report

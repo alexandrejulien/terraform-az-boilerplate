@@ -4,7 +4,6 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=bugs)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=alexandrejulien_terraform-az-boilerplate&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=alexandrejulien_terraform-az-boilerplate)
 
@@ -29,26 +28,26 @@ This project provides a Terraform template for deploying resources in Azure. It 
 * tf:unlock:                     🔒 Terraform force-unlock                                   (aliases: terraform:unlock)
 * tf:upgrade:                    Terraform init (upgrade)                                   (aliases: terraform:upgrade)
 * tf:validate:                   ✅ Terraform validate                                       (aliases: terraform:validate)
-* tf:workspace:create:           Create a new Terraform workspace                           (aliases: terraform:workspace:create)
-* tf:workspace:select:           Select a Terraform workspace                               (aliases: terraform:workspace:select)
+* tf:workspace:create:           Create a new Terraform workspace and make it active in .env  (aliases: terraform:workspace:create)
+* tf:workspace:select:           Select a Terraform workspace (writes TF_WORKSPACE to .env)   (aliases: terraform:workspace:select)
 * tf:workspace:show:             Show the current Terraform workspace                       (aliases: terraform:workspace:show)
-* tf:workspace:update-env:       Update .env file with the current Terraform workspace      (aliases: terraform:workspace:update-env)
 ```
 
 ## Project Structure
 
 - **/**.tf: Main Terraform configuration files  
-  - [`_providers.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\providers.tf): Configures the Azure provider and specifies the required Terraform and provider versions.  
-  - [`1_rg.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\rg.tf): Defines an Azure Resource Group using supplied variables.  
-  - [`_variables.tf`](d:\Dev\Github\terraform-az-boilerplate\tf\variables.tf): Declares variables such as resource group name and location.  
+  - [`_providers.tf`](_providers.tf): Configures the Azure provider and specifies the required Terraform and provider versions.  
+  - [`_backend.tf`](_backend.tf): Declares the `azurerm` remote backend (values come from `backend.tfvars`).  
+  - [`_variables.tf`](_variables.tf): Declares variables such as resource group name and location.  
+  - [`1_rg.tf`](1_rg.tf): Defines an Azure Resource Group using supplied variables.  
 - **modules/**: Reusable Terraform modules  
-  - Example: [`modules/tags/variables.tf`](d:\Dev\Github\terraform-az-boilerplate\modules\tags\variables.tf): Contains variables and validations for applying conventional tags.
-- **environments/**: Environment-specific variable and backend values  
-  - [`variables.tfvars`](d:\Dev\Github\terraform-az-boilerplate\environments\variables.tfvars): Contains variable assignments for non-production setups.
-  - [`backend.tfvars`](d:\Dev\Github\terraform-az-boilerplate\environments\nonprod\backend.tfvars): Contains backend definition for non-production setups.
-- **tasks/**: Task definition files for automating common Terraform commands  
-  - [`TerraformTasks.yml`](d:\Dev\Github\terraform-az-boilerplate\tasks\TerraformTasks.yml): Automates initialization, linting, validation, and planning tasks.
-- **Taskfile.yml**: Integrates configuration from `tasks/TerraformTasks.yml` to simplify running project tasks.
+  - Example: [`modules/tags/variables.tf`](modules/tags/variables.tf): Contains variables and validations for applying conventional tags.
+- **environments/**: Environment-specific variable and backend values, one folder per workspace (`nonprod`, `prod`)  
+  - [`variables.tfvars`](environments/nonprod/variables.tfvars): Contains variable assignments for the environment.
+  - [`backend.tfvars`](environments/nonprod/backend.tfvars): Contains the remote state backend definition for the environment.
+- **.tasks/**: Task definition files for automating common commands  
+  - [`TerraformTasks.yml`](.tasks/TerraformTasks.yml): Automates initialization, linting, validation, planning and apply tasks.
+- **Taskfile.yml**: Includes the `.tasks/*.yml` files to simplify running project tasks.
 
 ## Getting Started
 
@@ -78,26 +77,32 @@ After initialization, you can plan and apply your Terraform configuration. Use y
 
 ```sh
 task tf:plan
-task tf:apply
+task tf:apply           # interactive apply
+task tf:apply:approve   # applies the saved plan.tfplan exactly as reviewed
 
 # Execute:
-terraform plan -var-file="environments\nonprod\variables.tfvars"
-terraform apply -var-file="environments\nonprod\variables.tfvars"
+terraform plan --var-file "environments\nonprod\variables.tfvars" --out plan.tfplan
+terraform apply --var-file "environments\nonprod\variables.tfvars"
+terraform apply -auto-approve plan.tfplan
 ```
 
 ### Multi-environment
 
-Use variables and backend in "\environment\*.tfvars" folder.
+Variables and backend values live in `environments/<workspace>/*.tfvars`.
 
-Switch to another environmment with switching terraform workspace.
-in .ENV file, you can change $TF_WORKSPACE value to change workspace.
+The active environment is set by `TF_WORKSPACE` in the `.env` file. Terraform reads this variable natively, and the tasks use it to pick the right `environments/<workspace>` folder. Because `TF_WORKSPACE` overrides `terraform workspace select`, switch environments through the tasks, which update `.env`:
 
-TF_WORKSPACE is used to the right configuration namespace in "environments" folder.
+```ps1
+task tf:workspace:select NAME=prod   # existing workspace
+task tf:workspace:create NAME=qa     # new workspace (requires environments/qa/)
+```
+
+Inside the configuration, use `terraform.workspace` to vary behaviour per environment:
 
 ```hcl
 resource "azurerm_resource_group" "my_resource" {
-  count = ${terraform.workspace} == "nonprod" ? 1 : 0
-
+  count = terraform.workspace == "nonprod" ? 1 : 0
+  # ...
 }
 ```
 

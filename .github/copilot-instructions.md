@@ -25,8 +25,11 @@ generic and modular — this repo is meant to be forked, not a specific product'
     credential into them — keep placeholder values there and put real values in an untracked
     `local.tfvars` (already gitignored) or CI secrets instead.
 - The active environment is selected via the `TF_WORKSPACE` variable in `.env` (loaded by
-  Taskfile's `dotenv`) plus the actual Terraform workspace of the same name — not via a
-  hardcoded path or `count`/`if` sprinkled through resource files.
+  Taskfile's `dotenv`). Terraform reads `TF_WORKSPACE` natively and it overrides
+  `terraform workspace select/new`, so never suggest raw workspace commands — use
+  `task tf:workspace:select NAME=...` / `task tf:workspace:create NAME=...`, which rewrite `.env`.
+- Use `terraform.workspace` for per-environment values (e.g. the `Environment` tag) instead of
+  hardcoding an environment name.
 
 ## Task runner, not raw terraform
 
@@ -36,8 +39,8 @@ over raw `terraform` invocations:
 
 - `task tf:init`, `task tf:validate`, `task tf:lint` (tflint), `task tf:plan`, `task tf:apply`,
   `task tf:apply:approve`, `task tf:destroy`, `task tf:unlock ID=...`
-- `task tf:workspace:select NAME=...`, `task tf:workspace:create NAME=...`,
-  `task tf:workspace:update-env`
+- `task tf:apply:approve` applies the saved `plan.tfplan` as-is (run `tf:plan` first)
+- `task tf:workspace:select NAME=...`, `task tf:workspace:create NAME=...`
 - `task docs:generate` — regenerates `Terrraform.md` via `terraform-docs`
 - `task security:scan` — Checkov
 - `task costs:analysis` — Infracost
